@@ -17,9 +17,10 @@ import org.mozilla.javascript.ast.Scope;
 public class MainActivity extends AppCompatActivity {
 
 
-    Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnPercent,btnPlus,btnMinus,btnMultiply,btnDivision,btnEqual,btnClear,btnDot,btnBracket;
+    Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnPercent,btnPlus,btnMinus,btnMultiply, btnShowMemory, btnDeleteMemory;
+    Button btnDivision,btnEqual,btnClear,btnDot,btnBracket,btnPlusMemory,btnMinusMemory,btnValueMemory,btnClearValueMemory;
     TextView tvInput,tvOutput;
-    String process;
+    String process,valueMemory,finalResult = "";
     boolean checkBracket = false;
 
     @Override
@@ -49,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         btnDot = findViewById(R.id.btnDot);
         btnPercent = findViewById(R.id.btnPercent);
         btnBracket = findViewById(R.id.btnBracket);
+        btnPlusMemory = findViewById(R.id.btnPlusMemory);
+        btnMinusMemory = findViewById(R.id.btnMinusMemory);
+        btnValueMemory = findViewById(R.id.btnValueMemory);
+        btnClearValueMemory = findViewById(R.id.btnClearValueMemory);
+        btnShowMemory = findViewById(R.id.btnShowMemory);
+        btnDeleteMemory = findViewById(R.id.btnDeleteMemory);
 
         tvInput = findViewById(R.id.tvInput);
         tvOutput = findViewById(R.id.tvOutput);
@@ -199,6 +206,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnValueMemory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                valueMemory = finalResult;
+                tvInput.setText(valueMemory);
+                tvOutput.setText(valueMemory);
+            }
+        });
+
+        btnPlusMemory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                process = tvInput.getText().toString();
+                tvInput.setText(process);
+                tvOutput.setText(process);
+            }
+        });
+
+        btnShowMemory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                process = tvInput.getText().toString();
+                tvInput.setText(process);
+                tvOutput.setText(process);
+            }
+        });
+
+        btnDeleteMemory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                process = "0";
+                tvInput.setText(process);
+                tvOutput.setText(process);
+            }
+        });
+
         btnBracket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,8 +272,6 @@ public class MainActivity extends AppCompatActivity {
 
                 rhino.setOptimizationLevel(-1);
 
-                String finalResult = "";
-
                 try {
                     Scriptable scriptable = rhino.initStandardObjects();
                     finalResult = rhino.evaluateString(scriptable,process,"javascript",1,null).toString();
@@ -239,9 +280,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 tvOutput.setText(finalResult);
+
             }
         });
-
 
     }
 }
